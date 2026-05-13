@@ -37,7 +37,11 @@ export default function LoginPage() {
   /**
    * Navigate the user to their role-specific dashboard after auth success.
    */
-  function routeByRole(role: "recruiter" | "candidate" | "banker") {
+  function routeByRole(role: "recruiter" | "candidate" | "banker" | "admin") {
+    if (role === "admin") {
+      router.push("/admin")
+      return
+    }
     if (role === "recruiter") {
       router.push("/recruiter")
       return
@@ -299,9 +303,13 @@ export default function LoginPage() {
               <div className="mt-6 pt-6 border-t border-border text-center">
                 <p className="text-sm text-muted-foreground">
                   Don&apos;t have an account?{" "}
-                  <Link href="#register" className="text-primary hover:underline font-medium">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("register")}
+                    className="text-primary hover:underline font-medium"
+                  >
                     Register in this page
-                  </Link>
+                  </button>
                 </p>
               </div>
             </CardContent>
