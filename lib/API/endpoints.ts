@@ -1,0 +1,16 @@
+export const API_ENDPOINTS = {
+  authLogin: "/api/auth/login",
+  authRegister: "/api/auth/register",
+  authLogout: "/api/auth/logout",
+  authMe: "/api/auth/me",
+  recruiterCandidates: "/api/recruiter/candidates",
+  recruiterUnlock: "/api/recruiter/unlock",
+  recruiterWallet: "/api/recruiter/wallet",
+  recruiterTopup: "/api/recruiter/topup",
+  reviews: "/api/reviews",
+  referrals: "/api/referrals",
+  referralApply: (referralId: string) => `/api/referrals/${referralId}/apply`,
+  salaries: "/api/salaries",
+  bankerMyReferrals: "/api/banker/referrals/mine",
+  bankerReferralApplicants: (referralId: string) => `/api/banker/referrals/${referralId}/applicants`,
+} as const
