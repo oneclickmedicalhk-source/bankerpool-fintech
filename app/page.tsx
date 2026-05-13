@@ -24,7 +24,7 @@ import { Badge } from "@/components/ui/badge"
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-[#faf8f3] via-background to-background">
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -44,7 +44,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 md:py-24 px-4">
+      <section className="py-16 md:py-24 px-4 bg-[#f3ecdf]/80 border-y border-[#e7dcc8]">
         <div className="container mx-auto text-center max-w-4xl">
           <Badge variant="secondary" className="mb-6">
             Exclusive to Hong Kong Banking Professionals
@@ -58,7 +58,7 @@ export default function LandingPage() {
           </p>
           
           {/* Stats Bar */}
-          <div className="flex flex-wrap justify-center gap-8 md:gap-12 mb-16 py-6 px-4 rounded-xl bg-muted/50">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-12 mb-16 py-6 px-4 rounded-xl bg-white/80 border border-[#e7dcc8] shadow-sm">
             <div className="text-center">
               <div className="text-2xl md:text-3xl font-bold text-primary">567</div>
               <div className="text-sm text-muted-foreground">Profiles Unlocked</div>
@@ -80,7 +80,7 @@ export default function LandingPage() {
       </section>
 
       {/* Three Entry Points */}
-      <section className="py-12 px-4 bg-muted/30">
+      <section className="py-12 px-4 bg-[#faf6ee]">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
@@ -210,7 +210,7 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 md:py-24 px-4">
+      <section className="py-16 md:py-24 px-4 bg-background">
         <div className="container mx-auto max-w-5xl">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
@@ -254,7 +254,7 @@ export default function LandingPage() {
       </section>
 
       {/* Trust Indicators */}
-      <section className="py-12 px-4 bg-muted/30">
+      <section className="py-12 px-4 bg-[#f8f2e8]">
         <div className="container mx-auto max-w-4xl">
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
             <div className="flex items-center gap-2 text-muted-foreground">
