@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { jsonError } from "@/lib/API/http"
+import { statusFromError } from "@/lib/API/error"
 import { requireSession } from "@/lib/service/auth"
 import { unlockCandidateContact } from "@/lib/service/recruiter"
 
@@ -19,6 +20,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ contact })
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unlock failed."
-    return jsonError(message, message === "Unauthorized" ? 401 : 400)
+    return jsonError(message, statusFromError(error))
   }
 }

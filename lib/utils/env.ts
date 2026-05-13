@@ -7,11 +7,16 @@ export function getAppEnv() {
   const mongodbUri = process.env.MONGODB_URI || ""
   const mongodbDbName = process.env.MONGODB_DB_NAME || DEFAULT_DB_NAME
   const authSecret = process.env.AUTH_SECRET || "dev-only-change-me"
+  const adminAllowlistEmails = (process.env.ADMIN_ALLOWLIST_EMAILS || "")
+    .split(",")
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean)
 
   return {
     mongodbUri,
     mongodbDbName,
     authSecret,
+    adminAllowlistEmails,
   }
 }
 

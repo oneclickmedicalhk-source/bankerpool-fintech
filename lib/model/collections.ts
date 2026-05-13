@@ -7,4 +7,10 @@ export const COLLECTIONS = {
   referrals: "referrals",
   referralApplications: "referral_applications",
   salaryIntel: "salary_intel",
+  jobPosts: "job_posts",
+  adminContent: "admin_content",
+  adminSettings: "admin_settings",
+  adminAuditLogs: "admin_audit_logs",
+  adminApiKeys: "admin_api_keys",
+  adminWebhookEvents: "admin_webhook_events",
 } as const

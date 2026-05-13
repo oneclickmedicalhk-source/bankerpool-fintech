@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { jsonError } from "@/lib/API/http"
+import { statusFromError } from "@/lib/API/error"
 import { requireSession } from "@/lib/service/auth"
 import { listCandidateCards, submitCandidateProfile } from "@/lib/service/recruiter"
 import { ensureSeedData } from "@/lib/service/seed"
@@ -15,7 +16,7 @@ export async function GET() {
     return NextResponse.json({ candidates })
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to fetch candidates."
-    return jsonError(message, message === "Unauthorized" ? 401 : 400)
+    return jsonError(message, statusFromError(error))
   }
 }
 
@@ -46,6 +47,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true })
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to submit candidate."
-    return jsonError(message, message === "Unauthorized" ? 401 : 400)
+    return jsonError(message, statusFromError(error))
   }
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { jsonError } from "@/lib/API/http"
+import { statusFromError } from "@/lib/API/error"
 import { requireSession } from "@/lib/service/auth"
 import { createSalaryIntel, listSalaryIntel } from "@/lib/service/community"
 import { ensureSeedData } from "@/lib/service/seed"
@@ -36,6 +37,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true })
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to submit salary intel."
-    return jsonError(message, message === "Unauthorized" ? 401 : 400)
+    return jsonError(message, statusFromError(error))
   }
 }

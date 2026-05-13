@@ -3,10 +3,11 @@ import type { NextRequest } from "next/server"
 import { jwtVerify } from "jose"
 import { getAppEnv } from "@/lib/utils/env"
 
-const rolePathMap: Record<string, "recruiter" | "candidate" | "banker"> = {
+const rolePathMap: Record<string, "recruiter" | "candidate" | "banker" | "admin"> = {
   "/recruiter": "recruiter",
   "/candidate": "candidate",
   "/banker": "banker",
+  "/admin": "admin",
 }
 
 function startsWithRolePath(pathname: string) {
@@ -29,12 +30,18 @@ export async function middleware(request: NextRequest) {
 
   try {
     const { authSecret } = getAppEnv()
+    const { adminAllowlistEmails } = getAppEnv()
     const secret = new TextEncoder().encode(authSecret)
     const { payload } = await jwtVerify(token, secret)
     const role = String(payload.role || "")
+    const email = String(payload.email || "").toLowerCase()
     const requiredRole = rolePathMap[rolePathPrefix]
 
     if (role !== requiredRole) {
+      return NextResponse.redirect(new URL("/login", request.url))
+    }
+
+    if (requiredRole === "admin" && adminAllowlistEmails.length > 0 && !adminAllowlistEmails.includes(email)) {
       return NextResponse.redirect(new URL("/login", request.url))
     }
 
@@ -45,5 +52,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/recruiter/:path*", "/candidate/:path*", "/banker/:path*"],
+  matcher: ["/recruiter/:path*", "/candidate/:path*", "/banker/:path*", "/admin/:path*"],
 }

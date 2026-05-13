@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { jsonError } from "@/lib/API/http"
+import { statusFromError } from "@/lib/API/error"
 import { requireSession } from "@/lib/service/auth"
 import { listApplicantsForReferral } from "@/lib/service/community"
 
@@ -17,6 +18,6 @@ export async function GET(
     return NextResponse.json({ applicants })
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to fetch applicants."
-    return jsonError(message, message === "Unauthorized" ? 401 : 400)
+    return jsonError(message, statusFromError(error))
   }
 }

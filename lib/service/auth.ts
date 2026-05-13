@@ -111,6 +111,32 @@ export async function requireSession(role?: UserRole) {
 }
 
 /**
+ * Enforce admin-only access using both role and email allowlist.
+ */
+export async function requireAdmin() {
+  const user = await requireSession()
+  const db = await getDb()
+  const users = db.collection<AppUser>(COLLECTIONS.users)
+  const { adminAllowlistEmails } = getAppEnv()
+
+  const dbUser = await users.findOne({ _id: new ObjectId(user.id) })
+  if (!dbUser || dbUser.role !== "admin") {
+    throw new Error("Forbidden")
+  }
+
+  if (adminAllowlistEmails.length > 0 && !adminAllowlistEmails.includes(user.email.toLowerCase())) {
+    throw new Error("Forbidden")
+  }
+
+  return {
+    id: user.id,
+    email: user.email,
+    role: "admin" as const,
+    name: user.name,
+  }
+}
+
+/**
  * Register a new account and return its session-safe fields.
  */
 export async function registerUser(params: {
