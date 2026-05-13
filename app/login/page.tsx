@@ -23,7 +23,9 @@ import {
 export default function LoginPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState("email")
   const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [regEmail, setRegEmail] = useState("")
@@ -54,6 +56,7 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
     setError("")
+    setSuccessMessage("")
 
     try {
       const response = await fetch(API_ENDPOINTS.authLogin, {
@@ -80,6 +83,7 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
     setError("")
+    setSuccessMessage("")
 
     try {
       const response = await fetch(API_ENDPOINTS.authRegister, {
@@ -97,7 +101,13 @@ export default function LoginPage() {
       if (!response.ok) {
         throw new Error(data.error || "Registration failed.")
       }
-      routeByRole(data.user.role)
+
+      // Keep signup and login as separate steps for clearer onboarding.
+      setRegPassword("")
+      setPassword("")
+      setEmail(regEmail)
+      setActiveTab("email")
+      setSuccessMessage("註冊成功，請用剛才嘅電郵同密碼登入。")
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed.")
     } finally {
@@ -125,7 +135,7 @@ export default function LoginPage() {
 
           <Card className="border-border">
             <CardContent className="pt-6">
-              <Tabs defaultValue="email" className="w-full">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="grid w-full grid-cols-3 mb-6">
                   <TabsTrigger value="email">Email</TabsTrigger>
                   <TabsTrigger value="register">Register</TabsTrigger>
@@ -277,6 +287,10 @@ export default function LoginPage() {
                   </div>
                 </TabsContent>
               </Tabs>
+
+              {successMessage ? (
+                <p className="mt-4 text-sm text-primary">{successMessage}</p>
+              ) : null}
 
               {error ? (
                 <p className="mt-4 text-sm text-destructive">{error}</p>
