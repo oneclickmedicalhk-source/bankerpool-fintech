@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb"
 import nodemailer from "nodemailer"
 import { getDb } from "@/lib/API/mongodb"
 import { COLLECTIONS } from "@/lib/model/collections"
+import { hashPassword } from "@/lib/service/auth"
 import type {
   AdminApiKey,
   AdminAuditLog,
@@ -447,6 +448,30 @@ export async function updateAdminUser(
     id: userId,
     updates,
     updatedBy: admin.email,
+  })
+}
+
+/**
+ * Reset one user's login password from admin console.
+ */
+export async function resetAdminUserPassword(admin: SessionUser, userId: string, newPassword: string) {
+  const password = newPassword.trim()
+  if (password.length < 8) {
+    throw new Error("Password must be at least 8 characters.")
+  }
+
+  const db = await getDb()
+  const users = db.collection<AppUser>(COLLECTIONS.users)
+  const result = await users.updateOne(
+    { _id: new ObjectId(userId) },
+    { $set: { passwordHash: await hashPassword(password) } },
+  )
+  if (result.matchedCount === 0) {
+    throw new Error("User not found.")
+  }
+
+  await logAdminAudit(admin, "user.password_reset", "user", userId, {
+    resetBy: admin.email,
   })
 }
 

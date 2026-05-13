@@ -15,8 +15,6 @@ import {
   Mail,
   Lock,
   ArrowRight,
-  Building2,
-  Shield,
   CheckCircle2
 } from "lucide-react"
 
@@ -140,10 +138,9 @@ export default function LoginPage() {
           <Card className="border-border">
             <CardContent className="pt-6">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-6">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
                   <TabsTrigger value="email">Email</TabsTrigger>
                   <TabsTrigger value="register">Register</TabsTrigger>
-                  <TabsTrigger value="corporate">Corporate SSO</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="email">
@@ -260,36 +257,6 @@ export default function LoginPage() {
                   </form>
                 </TabsContent>
 
-                <TabsContent value="corporate">
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="corp-email">Corporate Email</Label>
-                      <div className="relative">
-                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="corp-email"
-                          type="email"
-                          placeholder="you@bank.com"
-                          className="pl-10 bg-input border-border"
-                        />
-                      </div>
-                    </div>
-
-                    <Button className="w-full gap-2">
-                      Continue with SSO
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-
-                    <div className="p-3 rounded-lg bg-muted/30 border border-border">
-                      <div className="flex items-start gap-2">
-                        <Shield className="h-4 w-4 text-primary mt-0.5" />
-                        <p className="text-xs text-muted-foreground">
-                          SSO available for partner institutions. Contact your admin if you don&apos;t see your company.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </TabsContent>
               </Tabs>
 
               {successMessage ? (

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { Search, MoreHorizontal, UserPlus, Mail, Ban, Download, CheckCircle2, Clock, XCircle, Trash2 } from "lucide-react"
+import { Search, MoreHorizontal, UserPlus, Mail, Ban, Download, CheckCircle2, Clock, XCircle, Trash2, KeyRound } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -108,6 +108,28 @@ export default function UserManagement() {
     }
     setStatusMessage("User deleted.")
     await loadUsers()
+  }
+
+  /**
+   * Reset one user's password and show the selected temporary credential.
+   */
+  async function resetUserPassword(id: string) {
+    const nextPassword = window.prompt("Set a new password (min 8 chars):", "Password123!")
+    if (!nextPassword) {
+      return
+    }
+
+    const response = await fetch(API_ENDPOINTS.adminUserResetPassword(id), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: nextPassword }),
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      setStatusMessage(data.error || "Failed to reset password.")
+      return
+    }
+    setStatusMessage(`Password reset for user. New password: ${nextPassword}`)
   }
 
   /**
@@ -331,6 +353,9 @@ export default function UserManagement() {
                           <Button variant="ghost" size="icon"><MoreHorizontal className="w-4 h-4" /></Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => void resetUserPassword(user.id)}>
+                            <KeyRound className="w-4 h-4 mr-2" /> Reset Password
+                          </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => void updateUser(user.id, { status: user.status === "suspended" ? "active" : "suspended" })}>
                             {user.status === "suspended" ? "Reactivate" : "Suspend"}
                           </DropdownMenuItem>

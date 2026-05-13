@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
   adminContentPublish: "/api/admin/content/publish",
   adminUsers: "/api/admin/users",
   adminUserById: (userId: string) => `/api/admin/users/${userId}`,
+  adminUserResetPassword: (userId: string) => `/api/admin/users/${userId}/password`,
   adminBulkSuspend: "/api/admin/users/bulk/suspend",
   adminBulkEmail: "/api/admin/users/bulk/email",
   adminJobs: "/api/admin/jobs",
